@@ -39,7 +39,6 @@ public class rayWalk : MonoBehaviour
 
                 startTime = Time.time;
                 startRotate = true;
-                canRaycast = false;
                 canTrigger = false;
             }
         }
@@ -79,7 +78,7 @@ public class rayWalk : MonoBehaviour
 
 	void OnTriggerEnter (Collider trigger)
 	{
-        if (startRotate == false && this.gameObject.tag != trigger.tag && canTrigger == true)
+        if (this.gameObject.tag != trigger.tag)
         {
             upVector = trigger.transform.up;
             this.gameObject.tag = trigger.tag;
@@ -92,7 +91,6 @@ public class rayWalk : MonoBehaviour
 			startTime = Time.time;
 			startRotate = true;
             canRaycast = false;
-            canTrigger = false;
 		}
 	}
 

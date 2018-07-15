@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6a03e59d43e459ab0674eff8cb58d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionDuration: 0.5
+  transitionDuration: 2
   turnSpeed: 35
   hitDistance: 0
 --- !u!65 &1086446948
