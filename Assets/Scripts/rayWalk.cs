@@ -13,7 +13,7 @@ public class rayWalk : MonoBehaviour
 	private bool startRotate = false;
     private float gravity = 10f;
     private bool canRaycast = true;
-    private bool canTrigger = true;
+
 	public float transitionDuration = 0.5f;
 	public float turnSpeed = 20f;
     [HideInInspector]public float hitDistance;
@@ -30,7 +30,6 @@ public class rayWalk : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, Mathf.Infinity) && canRaycast==true)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             hitDistance = hit.distance;
             if (hit.normal != upVector)
             {
@@ -39,7 +38,21 @@ public class rayWalk : MonoBehaviour
 
                 startTime = Time.time;
                 startRotate = true;
-                canTrigger = false;
+                canRaycast = false;
+            }
+        }
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 1f))
+        {
+            hitDistance = hit.distance;
+            if (hit.normal != upVector)
+            {
+                upVector = hit.normal;
+                endRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+
+                startTime = Time.time;
+                startRotate = true;
+                canRaycast = false;
             }
         }
 
@@ -71,7 +84,6 @@ public class rayWalk : MonoBehaviour
 			else {
                 startRotate = false;
                 canRaycast = true;
-                canTrigger = true;
 			}
 		}
 	}
@@ -85,8 +97,8 @@ public class rayWalk : MonoBehaviour
 
             endRotation = trigger.transform.rotation;
 
-			//cancels all forward motion
-			//rb.velocity = Vector3.zero;
+            //cancels all forward motion
+            //rb.velocity = Vector3.zero;
 
 			startTime = Time.time;
 			startRotate = true;
@@ -94,8 +106,8 @@ public class rayWalk : MonoBehaviour
 		}
 	}
 
-    //Can only move foward and backward when making contact with a collider
-    void OnCollisionStay (Collision collision)
+	//Can only move foward and backward when making contact with a collider
+	void OnCollisionStay (Collision collision)
 	{
         if (Input.GetKey("w"))
         {
@@ -104,7 +116,6 @@ public class rayWalk : MonoBehaviour
         if (Input.GetKey("s"))
         {
             rb.AddForce(transform.forward * -10f);
-
         }
 	}
 
