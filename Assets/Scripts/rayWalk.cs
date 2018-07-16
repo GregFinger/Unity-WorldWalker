@@ -19,11 +19,13 @@ public class rayWalk : MonoBehaviour
 	public float spinSpeed = 35f;
     [HideInInspector]public float hitDistance;
 
+
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody> ();
 		rb.useGravity = false;
         upVector = this.transform.up;
+
 	}
 
     void FixedUpdate()
@@ -34,7 +36,9 @@ public class rayWalk : MonoBehaviour
         // spins left and right based on the up vector
         if (Input.GetKey("a"))
         {
-            transform.RotateAround(transform.position, transform.up, -spinSpeed * Time.deltaTime);
+            //transform.RotateAround(transform.position, transform.up, -spinSpeed * Time.deltaTime);
+            //transform.Rotate(Vector3.up * -spinSpeed * Time.deltaTime, Space.Self);
+            rb.MoveRotation(rb.rotation * Quaternion.Euler(new Vector3(0, -spinSpeed, 0) * Time.deltaTime));
         }
 
         if (Input.GetKey("d"))
@@ -113,8 +117,9 @@ public class rayWalk : MonoBehaviour
             }
 
 			if (playback < 1f) {
-                transform.rotation = Quaternion.Lerp (transform.rotation, endRotation, playback);
-			} 
+                //transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, playback);
+                rb.MoveRotation(Quaternion.Slerp (transform.rotation, endRotation, playback));
+			}
 			else {
                 startRotate = false;
 			}
